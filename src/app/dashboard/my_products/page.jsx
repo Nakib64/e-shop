@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Box, Grid, Typography, CircularProgress, Alert } from "@mui/material";
 import { useSession } from "next-auth/react";
 import ProductCard from "@/app/components/Card";
+import LinearProgress from '@mui/material/LinearProgress';
 
 export default function MyProducts() {
     const {data: session} = useSession()
@@ -11,11 +12,17 @@ export default function MyProducts() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  if(!session.user){
+    return <div className="w-full">
+      <LinearProgress />
+    </div>
+  }
 
   useEffect(() => {
     setLoading(true);
+    console.log(session);
     axios
-      .get("/api/products", {email: session.user.email})
+      .get("/api/products", { params: { email: session?.user?.email } })
       .then((res) => {
         setProducts(res.data);
         setLoading(false);
@@ -24,12 +31,12 @@ export default function MyProducts() {
         setError(error.message);
         setLoading(false);
       });
-  }, []);
+  }, [session]);
 
   if (loading) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
-        <CircularProgress />
+      <Box display="flex" width={'full'} justifyContent="center" alignItems="center" minHeight="60vh">
+        <LinearProgress />
       </Box>
     );
   }
@@ -51,7 +58,7 @@ export default function MyProducts() {
         gutterBottom
         sx={{ fontWeight: 700 }}
       >
-        Our Products
+        My Products
       </Typography>
 
       <Grid container spacing={4} justifyContent="center">

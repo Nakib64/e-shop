@@ -11,6 +11,7 @@ import {
 	Stack,
 } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { usePathname } from "next/navigation";
 
 export default function ProductDetailsPage({ params }) {
 	const { id } = params; // safely get the product id from route
@@ -18,6 +19,7 @@ export default function ProductDetailsPage({ params }) {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 
+	const pathname = usePathname();
 	useEffect(() => {
 		if (!id) return;
 
@@ -120,19 +122,22 @@ export default function ProductDetailsPage({ params }) {
 				</Typography>
 
 				<Box sx={{ mt: 4, display: "flex", gap: 2 }}>
-					<Button
-						variant="contained"
-						startIcon={<ShoppingCartIcon />}
-						sx={{
-							borderRadius: 3,
-							px: 4,
-							py: 1.5,
-							textTransform: "none",
-							fontWeight: 600,
-						}}
-					>
-						Add to Cart
-					</Button>
+					{pathname.includes("dashboard") && (
+						<Button
+							variant="contained"
+							startIcon={<ShoppingCartIcon />}
+							sx={{
+								borderRadius: 3,
+								px: 4,
+								py: 1.5,
+								textTransform: "none",
+								fontWeight: 600,
+							}}
+						>
+							Add to Cart
+						</Button>
+					)}
+
 					<Button
 						variant="outlined"
 						sx={{

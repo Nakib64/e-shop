@@ -90,8 +90,9 @@ export default function ProductCard({ product }) {
 			</CardContent>
 
 			{/* Actions */}
-			{pathname.includes("dashboard") ? (
-				<CardActions sx={{ justifyContent: "space-between", px: 2, pb: 2 }}>
+
+			<CardActions sx={{ justifyContent: "space-between", px: 2, pb: 2 }}>
+				{pathname.includes("dashboard") ? (
 					<Link href={`/dashboard/edit?id=${_id}`}>
 						<Button
 							variant="contained"
@@ -106,22 +107,7 @@ export default function ProductCard({ product }) {
 							Edit
 						</Button>
 					</Link>
-
-					<Link href={`/dashboard/product_details/${_id}`} passHref>
-						<Button
-							variant="outlined"
-							sx={{
-								borderRadius: 3,
-								textTransform: "none",
-								fontWeight: 500,
-							}}
-						>
-							Details
-						</Button>
-					</Link>
-				</CardActions>
-			) : (
-				<CardActions sx={{ justifyContent: "space-between", px: 2, pb: 2 }}>
+				) : (
 					<Button
 						variant="contained"
 						startIcon={<ShoppingCartIcon />}
@@ -134,20 +120,21 @@ export default function ProductCard({ product }) {
 					>
 						Add to Cart
 					</Button>
-					<Link href={`/products/${_id}`} passHref>
-						<Button
-							variant="outlined"
-							sx={{
-								borderRadius: 3,
-								textTransform: "none",
-								fontWeight: 500,
-							}}
-						>
-							Details
-						</Button>
-					</Link>
-				</CardActions>
-			)}
+				)}
+
+				<Link href={`/products/${_id}`} passHref>
+					<Button
+						variant="outlined"
+						sx={{
+							borderRadius: 3,
+							textTransform: "none",
+							fontWeight: 500,
+						}}
+					>
+						Details
+					</Button>
+				</Link>
+			</CardActions>
 		</Card>
 	);
 }

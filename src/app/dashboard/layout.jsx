@@ -9,6 +9,7 @@ import {
 	ListItemText,
 	IconButton,
 	Typography,
+	LinearProgress,
 } from "@mui/material";
 import { Menu } from "@mui/icons-material";
 import { motion } from "framer-motion";
@@ -42,7 +43,7 @@ export default function DashboardLayout({ children }) {
 	const toggleDrawer = () => {
 		setMobileOpen(!mobileOpen);
 	};
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <div className="w-full"> <LinearProgress /></div>
 	const sidebar = (
 		<Box className="bg-gray-900 text-white h-full flex flex-col">
 			<Typography variant="h5" fontWeight="bold" className="p-6 text-center">
@@ -92,9 +93,9 @@ export default function DashboardLayout({ children }) {
 			{/* Main content */}
 			<Box className="flex-1 flex flex-col ">
 				{/* Mobile top bar */}
-				<Box className="flex items-center justify-between p-4 bg-white shadow md:hidden">
+				<Box className="flex items-center justify-between p-4  shadow md:hidden">
 					<IconButton onClick={toggleDrawer}>
-						<Menu />
+						<Menu className="dark:text-white"/>
 					</IconButton>
 					<Typography variant="h6">Dashboard</Typography>
 				</Box>
