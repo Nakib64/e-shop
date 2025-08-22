@@ -19,7 +19,6 @@ export default function ProductDetailsPage({ params }) {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 
-	const pathname = usePathname();
 	useEffect(() => {
 		if (!id) return;
 
@@ -122,22 +121,19 @@ export default function ProductDetailsPage({ params }) {
 				</Typography>
 
 				<Box sx={{ mt: 4, display: "flex", gap: 2 }}>
-					{pathname.includes("dashboard") && (
-						<Button
-							variant="contained"
-							startIcon={<ShoppingCartIcon />}
-							sx={{
-								borderRadius: 3,
-								px: 4,
-								py: 1.5,
-								textTransform: "none",
-								fontWeight: 600,
-							}}
-						>
-							Add to Cart
-						</Button>
-					)}
-
+					<Button
+						variant="contained"
+						startIcon={<ShoppingCartIcon />}
+						sx={{
+							borderRadius: 3,
+							px: 4,
+							py: 1.5,
+							textTransform: "none",
+							fontWeight: 600,
+						}}
+					>
+						Add to Cart
+					</Button>
 					<Button
 						variant="outlined"
 						sx={{

@@ -24,7 +24,7 @@ const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
 export default function DashboardPage() {
   return (
-    <div className=" min-h-screen">
+    <div className="py-4  min-h-screen">
       <h1 className="text-3xl font-bold mb-6">📊 Dashboard Overview</h1>
 
       {/* Stats cards */}

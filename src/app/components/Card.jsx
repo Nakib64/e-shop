@@ -122,7 +122,7 @@ export default function ProductCard({ product }) {
 					</Button>
 				)}
 
-				<Link href={`/products/${_id}`} passHref>
+				<Link href={`/dashboard/my_products/${_id}`} passHref>
 					<Button
 						variant="outlined"
 						sx={{

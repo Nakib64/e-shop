@@ -105,7 +105,7 @@ export default function DashboardLayout({ children }) {
 					initial={{ opacity: 0, y: 20 }}
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.5 }}
-					className="flex-1 p-6 overflow-auto"
+					className="flex-1 px-4 overflow-auto"
 				>
 					{children}
 				</motion.div>
