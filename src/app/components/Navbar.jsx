@@ -52,12 +52,6 @@ export default function Navbar() {
 		}
 	}, []);
 
-	const toggleTheme = () => {
-		const newTheme = theme === "light" ? "dark" : "light";
-		setTheme(newTheme);
-		localStorage.setItem("theme", newTheme);
-		document.documentElement.setAttribute("data-theme", newTheme);
-	};
 
 	// Hide navbar on dashboard page if needed
 	if (pathname.includes("dashboard")) return null;
@@ -67,7 +61,7 @@ export default function Navbar() {
 			{/* Navbar */}
 			<AppBar
 				position="sticky"
-				className="bg-white sticky dark:bg-gray-900 shadow-md px-4 lg:px-12 transition-colors duration-300"
+				className="bg-white sticky top-0 dark:bg-gray-900 shadow-md px-4 lg:px-12 transition-colors duration-300"
 				sx={{ background: "transparent", boxShadow: "none" }}
 			>
 				<Toolbar className="flex justify-between items-center">
@@ -104,14 +98,7 @@ export default function Navbar() {
 
 					{/* Desktop Right Section */}
 					<div className="hidden md:flex items-center gap-3">
-						{/* Theme toggle */}
-						<IconButton onClick={toggleTheme}>
-							{theme === "light" ? (
-								<DarkModeIcon className="text-gray-800" />
-							) : (
-								<LightModeIcon className="text-yellow-400" />
-							)}
-						</IconButton>
+
 
 						{/* Auth Buttons */}
 						{session ? (
@@ -131,15 +118,9 @@ export default function Navbar() {
 
 					{/* Mobile Section */}
 					<div className="md:hidden flex items-center gap-2">
-						<IconButton onClick={toggleTheme}>
-							{theme === "light" ? (
-								<DarkModeIcon className="text-gray-800" />
-							) : (
-								<LightModeIcon className="text-yellow-400" />
-							)}
-						</IconButton>
+						
 						<IconButton onClick={() => setOpen(true)}>
-							<MenuIcon />
+							<MenuIcon className="dark:text-white"/>
 						</IconButton>
 					</div>
 				</Toolbar>
