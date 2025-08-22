@@ -22,7 +22,7 @@ import { useRouter } from "next/navigation";
 const links = [
 	{ name: "Home", path: "/" },
 	{ name: "Overview", path: "/dashboard" },
-	{ name: "Products", path: "/dashboard/products" },
+	{ name: "Products", path: "/dashboard/my_products" },
 	{ name: "Add Product", path: "/dashboard/add_product" },
 	
 ];

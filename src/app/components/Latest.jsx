@@ -114,7 +114,7 @@ export default function LatestProducts() {
 								<Typography variant="h6" sx={{ fontWeight: 600 }}>
 									{product.name}
 								</Typography>
-								<Typography variant="body2">${product.price}</Typography>
+								<Typography variant="body2">৳{product.price}</Typography>
 							</CardContent>
 							<CardActions>
 								<Button

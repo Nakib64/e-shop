@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import {
   TextField,
@@ -18,13 +18,18 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSession } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
+
 
 const categories = ["monitor", "speaker", "mouse", "keyboard"];
 const brands = ["Hp", "Acer", "Lenovo"];
 
-export default function AddProduct() {
-  const {data: session}= useSession()
-  console.log(session.user.email);
+export default function EditProduct() {
+    const router = useRouter()
+  const { data: session } = useSession();
+  const params = useSearchParams();
+  const id = params.get("id");
+
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -32,16 +37,37 @@ export default function AddProduct() {
   const {
     register,
     handleSubmit,
-    reset,
+    setValue,
     formState: { errors },
-  } = useForm({defaultValues: {
-    name: "",
-    category: "",
-    brand: "",
-    price: "",
-    description: "",
-    email: session.user.email
-  },});
+  } = useForm();
+
+  // Fetch product and set values
+  useEffect(() => {
+    if (!id) return;
+
+    setLoading(true);
+    axios
+      .get(`/api/products?id=${id}`)
+      .then((res) => {
+        const data = res.data;
+
+        // Prefill form fields
+        setValue("name", data.name);
+        setValue("category", data.category);
+        setValue("brand", data.brand);
+        setValue("price", data.price);
+        setValue("description", data.description);
+
+        // Show existing image
+        if (data.image) setImagePreview(data.image);
+
+        setLoading(false);
+      })
+      .catch(() => {
+        toast.error("❌ Failed to load product");
+        setLoading(false);
+      });
+  }, [id, setValue]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -50,39 +76,33 @@ export default function AddProduct() {
   };
 
   const onSubmit = async (data) => {
-    if (!image) {
-      toast.error("Please upload an image");
-      return;
-    }
-
     setLoading(true);
 
     try {
-      // 1️⃣ Upload image to imgbb
-      const formData = new FormData();
-      formData.append("image", image);
-      const imgbbKey = process.env.NEXT_PUBLIC_IMGBB_KEY;
+      let imageUrl = imagePreview; // Keep old image if no new one selected
 
-      if (!imgbbKey) throw new Error("Missing imgbb key");
+      if (image) {
+        const formData = new FormData();
+        formData.append("image", image);
 
-      const imgbbRes = await axios.post(
-        `https://api.imgbb.com/1/upload?key=${imgbbKey}`,
-        formData
-      );
-      const imageUrl = imgbbRes.data.data.url;
+        const imgbbKey = process.env.NEXT_PUBLIC_IMGBB_KEY;
+        if (!imgbbKey) throw new Error("Missing imgbb key");
 
-      // 2️⃣ Send product to your API
-      const productRes = await axios.post("/api/products", {
+        const imgbbRes = await axios.post(
+          `https://api.imgbb.com/1/upload?key=${imgbbKey}`,
+          formData
+        );
+        imageUrl = imgbbRes.data.data.url;
+      }
+
+      // Update product
+      await axios.put(`/api/products?id=${id}`, {
         ...data,
         image: imageUrl,
       });
 
-      toast.success("✅ Product added successfully!");
-
-      // Reset form
-      setImage(null);
-      setImagePreview(null);
-      reset();
+      toast.success("✅ Product updated successfully!");
+      router.back()
     } catch (err) {
       console.error(err);
       toast.error("❌ Something went wrong!");
@@ -90,6 +110,13 @@ export default function AddProduct() {
 
     setLoading(false);
   };
+
+  if (loading && !imagePreview)
+    return (
+      <Box className="flex justify-center mt-10">
+        <CircularProgress />
+      </Box>
+    );
 
   return (
     <Paper
@@ -100,14 +127,10 @@ export default function AddProduct() {
       transition={{ duration: 0.5 }}
     >
       <Typography variant="h4" mb={3} textAlign="center">
-        Add Product
+        Edit Product
       </Typography>
 
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-4"
-        noValidate
-      >
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" noValidate>
         {/* Image Upload */}
         <Box className="flex flex-col items-center">
           <input
@@ -135,23 +158,13 @@ export default function AddProduct() {
                 <img
                   src={imagePreview}
                   alt="Preview"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    borderRadius: 8,
-                  }}
+                  style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 8 }}
                 />
               ) : (
                 <UploadFileIcon sx={{ fontSize: 40, color: "#777" }} />
               )}
             </IconButton>
           </label>
-          {!image && (
-            <Typography color="error" variant="caption">
-              * Image is required
-            </Typography>
-          )}
         </Box>
 
         {/* Name */}
@@ -211,16 +224,14 @@ export default function AddProduct() {
           error={!!errors.price}
           helperText={errors.price?.message}
         />
+
+        {/* Description */}
         <TextField
           label="Description"
           type="text"
           variant="outlined"
           fullWidth
-          {...register("description", {
-            required: "Description is required",
-           
-          })}
-       
+          {...register("description", { required: "Description is required" })}
         />
 
         {/* Submit */}
@@ -233,11 +244,7 @@ export default function AddProduct() {
             sx={{ borderRadius: "9999px", mt: 2 }}
             disabled={loading}
           >
-            {loading ? (
-              <CircularProgress size={24} color="inherit" />
-            ) : (
-              "Add Product"
-            )}
+            {loading ? <CircularProgress size={24} color="inherit" /> : "Update Product"}
           </Button>
         </motion.div>
       </form>

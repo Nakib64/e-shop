@@ -112,7 +112,7 @@ export default function ProductDetailsPage({ params }) {
 					color="success.main"
 					sx={{ fontWeight: 700, mt: 2 }}
 				>
-					${product.price}
+					৳{product.price}
 				</Typography>
 
 				<Typography variant="body1" sx={{ mt: 2, lineHeight: 1.6 }}>
