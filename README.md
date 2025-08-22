@@ -1,62 +1,88 @@
-PC-Store – MERN Stack E-Commerce Platform
-Project Description
+# PC-Store 🖥️💻
 
-PC-Store is a full-featured e-commerce web application built with the MERN stack (MongoDB, Express, React, Node.js) and Next.js.
-The platform allows users to browse and search for products, view product details, and for admins to manage products and users.
-It includes authentication with NextAuth.js, image upload via ImgBB, and a responsive, modern UI using Material-UI (MUI) and TailwindCSS.
+[![Next.js](https://img.shields.io/badge/Next.js-13.5-blue?logo=next.js)](https://nextjs.org/) [![MUI](https://img.shields.io/badge/MUI-5.15-blue?logo=mui)](https://mui.com/) [![MongoDB](https://img.shields.io/badge/MongoDB-6.0-green?logo=mongodb)](https://www.mongodb.com/) [![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
-Key Features:
+## Project Description
 
-User authentication (Sign In/Sign Up) with email/password and session management.
+**PC-Store** is a modern e-commerce web application built with the **MERN stack** and **Next.js**. It allows users to browse, search, and view products, while admins can manage products and users.
 
-Add, edit, and delete products (admin only).
+**Features:**
 
-View products in a visually appealing grid with product details page.
+* User authentication (Sign In/Sign Up) with **NextAuth.js**
+* Responsive design with **dark/light mode**
+* Latest products displayed dynamically
+* Product details page with full information
+* REST API endpoints for all CRUD operations
 
-Display latest products dynamically.
+---
 
-Responsive design with light/dark theme toggle.
+## Demo
 
-Full CRUD operations via REST API routes.
+> Replace with your live demo link
+> [Live Demo](https://e-shop-liard-seven.vercel.app/)
 
-Secure admin dashboard with role-based access.
+---
 
-Setup & Installation
-1. Clone the repository
-git clone https://github.com/yourusername/pc-store.git
+## Tech Stack
+
+* **Frontend:** Next.js, React, Material-UI (MUI), TailwindCSS, Framer Motion
+* **Database:** MongoDB
+* **Authentication:** NextAuth.js
+* **Image Upload:** ImgBB
+
+---
+
+## Installation & Setup
+
+1. **Clone the repository**
+
+```bash
+git clone https://github.com/Nakib64/e-shop.git
 cd pc-store
+```
 
-2. Install dependencies
+2. **Install dependencies**
+
+```bash
 npm install
+```
 
-3. Configure environment variables
+3. **Set environment variables** in `.env.local`:
 
-Create a .env.local file in the root:
-
+```env
 MONGODB_URI=your_mongodb_connection_string
 NEXT_PUBLIC_IMGBB_KEY=your_imgbb_api_key
 NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_SECRET=your_secret_key
+```
 
-4. Run the development server
+4. **Run the development server**
+
+```bash
 npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) to view in the browser.
+
+---
+
+## Route Summary
+
+### Public Pages
+
+| Route           | Method   | Description       |
+| --------------- | -------- | ----------------- |
+| `/`             | GET      | Homepage          |
+| `/products`     | GET      | List all products |
+| `/products/:id` | GET      | Product details   |
+| `/login`        | GET/POST | Sign in page      |
 
 
-Open http://localhost:3000
- in your browser.
+### API Routes
 
-Route Summary
-Public Routes
-Route	Method	Description
-/	GET	Homepage
-/products	GET	List all products
-/products/:id	GET	Product details
-/login	GET/POST	Sign in page
-/signup	GET/POST	Sign up page
-API Routes
-Route	Method	Description
-/api/products	GET	Fetch all products
-/api/products	POST	Add a new product (admin only)
-/api/products/:id	GET	Get product by ID
-/api/products/:id	PUT	Update product (admin only)
-/api/products/:id	DELETE	Delete product (admin only)
+| Route               | Method | Description                  |
+| ------------------- | ------ | ---------------------------- |
+| `/api/products`     | GET    | Fetch all products           |
+| `/api/products`     | POST   | Add new product (admin only) |
+
+
