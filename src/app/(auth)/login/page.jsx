@@ -8,7 +8,7 @@ export default function LoginPage() {
   const { data: session } = useSession();
 
   const handleGoogleLogin = () => {
-    signIn("google", { callbackUrl: "/" }); // Redirect after login
+    signIn("google", { callbackUrl: "/products" }); // Redirect after login
   };
 
   return (

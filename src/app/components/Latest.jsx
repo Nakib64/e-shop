@@ -72,8 +72,9 @@ export default function LatestProducts() {
                   transform: "scale(1.03)",
                   boxShadow: 6,
                 },
-                backgroundColor: "rgba(255,255,255,0.1)", // glass effect
+                backgroundColor: "transparent", // glass effect
                 backdropFilter: "blur(10px)",
+                color: "gray",
                 display: "flex",
                 flexDirection: "column",
                 height: "100%",
@@ -94,13 +95,14 @@ export default function LatestProducts() {
                 <Typography variant="h6" sx={{ fontWeight: 600 }}>
                   {product.name}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body2">
                   ${product.price}
                 </Typography>
               </CardContent>
               <CardActions>
                 <Button
                   size="small"
+                  variant="outlined"
                   onClick={() => router.push(`/products/${product._id}`)}
                   sx={{ textTransform: "none", fontWeight: 600 }}
                 >
